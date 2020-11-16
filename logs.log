@@ -1,0 +1,17 @@
+[MovieClient#findAll] ---> GET http://localhost:8080/movies/ HTTP/1.1
+[MovieClient#findAll] ---> END HTTP (0-byte body)
+[MovieClient#findAll] <--- HTTP/1.1 200 (118ms)
+[MovieClient#findAll] connection: keep-alive
+[MovieClient#findAll] content-type: application/json
+[MovieClient#findAll] date: Mon, 16 Nov 2020 11:31:29 GMT
+[MovieClient#findAll] keep-alive: timeout=20
+[MovieClient#findAll] transfer-encoding: chunked
+[MovieClient#findAll] 
+[MovieClient#findAll] [{"id":1,"title":"Fast and Furious","description":"movie about street racing"},{"id":2,"title":"Fast and Furious 2","description":"movie about street racing. second part"},{"id":3,"title":"Need to parse name of film","description":"Need to parse description"},{"id":4,"title":"Need to parse name of film","description":"Need to parse description"},{"id":5,"title":"Need to parse name of film","description":"Need to parse description"},{"id":6,"title":"Красавица и чудовище","description":"Мультфильм про любовь"},{"id":7,"title":"Паразиты","description":"Корейский фильм"}]
+[MovieClient#findAll] <--- END HTTP (633-byte body)
+[MovieClient#findAll] ---> GET http://localhost:8080/movies/ HTTP/1.1
+[MovieClient#findAll] <--- HTTP/1.1 200 (38ms)
+[MovieClient#create] ---> POST http://localhost:8080/movies/ HTTP/1.1
+[MovieClient#create] <--- HTTP/1.1 200 (27ms)
+[MovieClient#findAll] ---> GET http://localhost:8080/movies/ HTTP/1.1
+[MovieClient#findAll] <--- HTTP/1.1 200 (6ms)
