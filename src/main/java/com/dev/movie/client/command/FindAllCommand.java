@@ -1,15 +1,19 @@
 package com.dev.movie.client.command;
 
-//ConcreteCommand
-public class FindAllCommand implements Command {
-    MovieCommand movieCommand;
+import com.dev.movie.client.service.MovieService;
+import java.io.PrintStream;
+import java.util.Scanner;
 
-    public FindAllCommand(MovieCommand movieCommand) {
-        this.movieCommand = movieCommand;
+public class FindAllCommand implements Command {
+    MovieService movieService;
+
+    public FindAllCommand(MovieService movieService) {
+        this.movieService = movieService;
     }
 
     @Override
-    public void execute() {
-        movieCommand.getAll();
+    public void execute(Scanner scanner, PrintStream printStream) {
+        movieService.findAll()
+                .forEach(movie -> printStream.println(movie.toString()));
     }
 }

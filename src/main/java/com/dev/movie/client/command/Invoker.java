@@ -1,20 +1,21 @@
 package com.dev.movie.client.command;
 
-//Invoker
+import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Scanner;
+
 public class Invoker {
-    private Command addMovie;
-    private Command findAllMovies;
+    private final HashMap<String, Command> commandMap = new HashMap<>();
 
-    public Invoker(Command addMovie, Command findAll){
-        this.addMovie=addMovie;
-        this.findAllMovies=findAll;
+    public void register(String commandName, Command command) {
+        commandMap.put(commandName, command);
     }
 
-    public void add(){
-        addMovie.execute();
-    }
-
-    public void findAll(){
-        findAllMovies.execute();
+    public void execute(String commandName, Scanner scanner, PrintStream printStream) {
+        Command command = commandMap.get(commandName);
+        if (command == null) {
+            throw new IllegalStateException("No command registered for " + commandName);
+        }
+        command.execute(scanner, printStream);
     }
 }
