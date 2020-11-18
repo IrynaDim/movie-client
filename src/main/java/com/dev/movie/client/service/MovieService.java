@@ -1,7 +1,7 @@
 package com.dev.movie.client.service;
 
 import com.dev.movie.client.entity.Movie;
-import com.dev.movie.client.fiegn.MovieClient;
+import com.dev.movie.client.feign.MovieClient;
 import com.dev.movie.client.logger.Log4J;
 import feign.Feign;
 import feign.Logger;

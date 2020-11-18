@@ -1,4 +1,4 @@
-package com.dev.movie.client.fiegn;
+package com.dev.movie.client.feign;
 
 import com.dev.movie.client.entity.Movie;
 import feign.Headers;
