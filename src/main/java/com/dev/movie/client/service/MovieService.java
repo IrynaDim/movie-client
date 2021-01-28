@@ -22,11 +22,11 @@ public class MovieService {
                 .target(MovieClient.class, url);
     }
 
-    public List<Movie> findAll() {
-        return movieClient.findAll();
+    public List<Movie> findAll(String token) {
+        return movieClient.findAll(token);
     }
 
-    public void add(Movie movie) {
-        movieClient.create(movie);
+    public void add(Movie movie, String token) {
+        movieClient.create(token, movie);
     }
 }

@@ -12,8 +12,8 @@ public class FindAllCommand implements Command {
     }
 
     @Override
-    public void execute(Scanner scanner, PrintStream printStream) {
-        movieService.findAll()
+    public void execute(Scanner scanner, PrintStream printStream, String token) {
+        movieService.findAll(token)
                 .forEach(movie -> printStream.println(movie.toString()));
     }
 }

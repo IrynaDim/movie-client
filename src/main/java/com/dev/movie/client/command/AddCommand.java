@@ -13,12 +13,12 @@ public class AddCommand implements Command {
     }
 
     @Override
-    public void execute(Scanner scanner, PrintStream printStream) {
+    public void execute(Scanner scanner, PrintStream printStream, String token) {
         Movie movie = new Movie();
         printStream.println("Enter the title of the movie");
         movie.setTitle(scanner.nextLine());
         printStream.println("Enter the description of the movie");
         movie.setDescription(scanner.nextLine());
-        movieService.add(movie);
+        movieService.add(movie, token);
     }
 }
