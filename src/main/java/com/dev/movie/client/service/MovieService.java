@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MovieService {
     private static final MovieClient movieClient;
-    private static final String url = "http://localhost:8080/movies";
+    private static final String url = "http://localhost:8080/movies"; // не писать путь.через value Mapi глянуть. BeanCofig -> Value
 
     static {
         movieClient = Feign.builder()

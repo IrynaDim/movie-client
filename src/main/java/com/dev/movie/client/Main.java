@@ -7,6 +7,8 @@ import com.dev.movie.client.service.MovieService;
 import java.io.PrintStream;
 import java.util.Scanner;
 
+// фреймоврк для написания консольных команд
+
 public class Main {
     public static void main(String[] args) {
         PrintStream printStream = new PrintStream(System.out);
