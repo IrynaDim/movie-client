@@ -1,5 +1,7 @@
 package com.dev.movie.client.command;
 
+import com.dev.movie.client.entity.JwtToken;
+
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -11,7 +13,7 @@ public class Invoker {
         commandMap.put(commandName, command);
     }
 
-    public void execute(String commandName, Scanner scanner, PrintStream printStream, String token) {
+    public void execute(String commandName, Scanner scanner, PrintStream printStream, JwtToken token) {
         Command command = commandMap.get(commandName);
         if (command == null) {
             throw new IllegalStateException("No command registered for " + commandName);
