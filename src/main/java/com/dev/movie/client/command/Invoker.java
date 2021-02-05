@@ -19,3 +19,4 @@ public class Invoker {
         command.execute(scanner, printStream, token);
     }
 }
+// цикл сюда перенести

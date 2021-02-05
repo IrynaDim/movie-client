@@ -7,7 +7,9 @@ import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SignService {
     private static final SignClient signClient;
     private static final String url = "http://localhost:8080/signin"; // не писать путь.через value Mapi глянуть. BeanCofig -> Value

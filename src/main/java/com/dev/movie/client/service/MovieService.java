@@ -7,15 +7,19 @@ import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
+@Service
 public class MovieService {
     private static final MovieClient movieClient;
     private static final String url = "http://localhost:8080/movies"; // не писать путь.через value Mapi глянуть. BeanCofig -> Value
 
     static {
         movieClient = Feign.builder()
-                .encoder(new GsonEncoder())
+                .encoder(new GsonEncoder()) //.requestInterceptor() - добавить. передаем наш настроенный интерсептор
                 .decoder(new GsonDecoder())
                 .logger(new Log4J())
                 .logLevel(Logger.Level.BASIC)
