@@ -4,9 +4,7 @@ import com.dev.movie.client.entity.JwtToken;
 import feign.Headers;
 import feign.Param;
 import feign.RequestLine;
-import org.springframework.cloud.netflix.feign.FeignClient;
 
-@FeignClient(name = "signFeignClient")
 public interface SignClient {
 
     @RequestLine("POST ?" +

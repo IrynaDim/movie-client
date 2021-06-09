@@ -1,10 +1,11 @@
 package com.dev.movie.client.logger;
 
 import feign.Logger;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
-@Log4j
-public class Log4J extends Logger {
+@Slf4j
+public class Slf4jLogger extends Logger {
+
     @Override
     protected void log(String configKey, String format, Object... args) {
         log.info(String.format(methodTag(configKey) + format, args));
