@@ -2,27 +2,22 @@ package com.dev.movie.client;
 
 import com.dev.movie.client.command.*;
 import com.dev.movie.client.entity.JwtToken;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dev.movie.client.exception.NotCorrectDataException;
+import com.dev.movie.client.exception.UnauthorizedException;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.PrintStream;
+import java.util.List;
 import java.util.Scanner;
 
 @Component
 public class ConsoleRunner implements ApplicationRunner {
-    SignInCommand signInCommand;
-    RegistrationCommand registrationCommand;
-    FindAllMoviesCommand findAllMoviesCommand;
-    FindAllCinemaHallCommand findAllCinemaHallsCommand;
+    private final List<Command> commands;
 
-    public ConsoleRunner(SignInCommand signInCommand, RegistrationCommand registrationCommand,
-                         FindAllMoviesCommand findAllMoviesCommand, FindAllCinemaHallCommand findAllCinemaHallsCommand) {
-        this.signInCommand = signInCommand;
-        this.registrationCommand = registrationCommand;
-        this.findAllMoviesCommand = findAllMoviesCommand;
-        this.findAllCinemaHallsCommand = findAllCinemaHallsCommand;
+    public ConsoleRunner(List<Command> commands) {
+        this.commands = commands;
     }
 
     @Override
@@ -31,36 +26,33 @@ public class ConsoleRunner implements ApplicationRunner {
         PrintStream printStream = System.out;
 
         Invoker invoker = new Invoker();
-        invoker.register("1", signInCommand);
-        invoker.register("2", registrationCommand);
-        invoker.register("3", findAllMoviesCommand);
-        invoker.register("4", findAllCinemaHallsCommand);
+        for (Command command : commands) {
+            invoker.register(command.getName(), command);
+        }
+
         Scanner scanner = new Scanner(System.in);
-        String command;
 
         while (true) {
-            printStream.println("\n Please, choose from the next commands:"
-                    + "\n \"1\" - to sing-in into the program"
-                    + "\n \"2\" - to register new user"
-                    + "\n \"q\" - to quit from the app. \n");
-            command = scanner.nextLine();
-            if (command.equals("q")) {
-                printStream.println("Buy-buy!");
-                break;
+            LoopHandler loopHandler = new LoopHandler();
+            printStream.println("\n Please, choose from the next commands:");
+            for (Command command : commands) {
+                printStream.println(command.getName() + " - " + command.getDescription());
             }
-            invoker.execute(command, scanner, printStream, jwtToken); // + loopHandler
-            while (true) {
-                printStream.println("\n Please, choose from the next commands:"
-                        + "\n \"3\" - to show all movies"
-                        + "\n \"4\" - to show all cinema-halls"
-                        + "\n \"q\" - to quit from the app. \n");
-                command = scanner.nextLine();
-                if (command.equals("q")) {
-                    printStream.println("Buy-buy!");
-                    break;
-                }
-                invoker.execute(command, scanner, printStream, jwtToken);
+            String command = scanner.nextLine();
+
+            try {
+                invoker.execute(command, scanner, printStream, jwtToken, loopHandler);
+            } catch (UnauthorizedException e) {
+                printStream.println("You should sign-in in the system or register a new user. Press 3 or 4.");
+            } catch (NotCorrectDataException e) {
+                printStream.println("Incorrect login or email. Try again.");
+            }
+
+            if (loopHandler.isExit()) {
+                break;
             }
         }
     }
 }
+// ловить ошибку
+// обрабатывать ошибку токена, если мы не зарегистр.

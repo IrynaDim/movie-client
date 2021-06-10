@@ -16,8 +16,18 @@ public class FindAllCinemaHallCommand implements Command {
     private CinemaHallService cinemaHallService;
 
     @Override
-    public void execute(Scanner scanner, PrintStream printStream, JwtToken token) {
+    public void execute(Scanner scanner, PrintStream printStream, JwtToken token, LoopHandler handler) {
         cinemaHallService.findAll(token.token)
                 .forEach(movie -> printStream.println(movie.toString()));
+    }
+
+    @Override
+    public String getName() {
+        return "1";
+    }
+
+    @Override
+    public String getDescription() {
+        return "to get all cinema halls";
     }
 }

@@ -1,6 +1,7 @@
 package com.dev.movie.client.service;
 
 import com.dev.movie.client.entity.CinemaHall;
+import com.dev.movie.client.exception.ClientErrorDecoder;
 import com.dev.movie.client.feign.CinemaHallClient;
 import com.dev.movie.client.logger.Slf4jLogger;
 import feign.Feign;
@@ -20,6 +21,7 @@ public class CinemaHallService {
         cinemaHallClient = Feign.builder()
                 .encoder(new GsonEncoder()) //.requestInterceptor() - добавить. передаем наш настроенный интерсептор
                 .decoder(new GsonDecoder())
+                .errorDecoder(new ClientErrorDecoder())
                 .logger(new Slf4jLogger())
                 .logLevel(Logger.Level.BASIC)
                 .target(CinemaHallClient.class, url);

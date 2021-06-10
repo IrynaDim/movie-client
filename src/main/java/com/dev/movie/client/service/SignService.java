@@ -1,6 +1,7 @@
 package com.dev.movie.client.service;
 
 import com.dev.movie.client.entity.JwtToken;
+import com.dev.movie.client.exception.ClientErrorDecoder;
 import com.dev.movie.client.feign.SignClient;
 import com.dev.movie.client.logger.Slf4jLogger;
 import feign.Feign;
@@ -18,6 +19,7 @@ public class SignService {
         signClient = Feign.builder()
                 .encoder(new GsonEncoder())
                 .decoder(new GsonDecoder())
+                .errorDecoder(new ClientErrorDecoder())
                 .logger(new Slf4jLogger())
                 .logLevel(Logger.Level.BASIC)
                 .target(SignClient.class, url);

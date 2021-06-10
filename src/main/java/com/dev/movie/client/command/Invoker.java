@@ -15,12 +15,12 @@ public class Invoker {
         commandMap.put(commandName, command);
     }
 
-    public void execute(String commandName, Scanner scanner, PrintStream printStream, JwtToken token) {
+    public void execute(String commandName, Scanner scanner, PrintStream printStream, JwtToken token, LoopHandler handler) {
         Command command = commandMap.get(commandName);
         if (command == null) {
             throw new IllegalStateException("No command registered for " + commandName);
         }
-        command.execute(scanner, printStream, token);
+        command.execute(scanner, printStream, token, handler);
     }
 }
 // цикл сюда перенести

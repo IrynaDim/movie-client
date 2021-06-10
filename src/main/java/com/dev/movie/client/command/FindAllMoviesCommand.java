@@ -16,8 +16,18 @@ public class FindAllMoviesCommand implements Command {
     }
 
     @Override
-    public void execute(Scanner scanner, PrintStream printStream, JwtToken token) {
+    public void execute(Scanner scanner, PrintStream printStream, JwtToken token, LoopHandler handler) {
         movieService.findAll(token.token)
                 .forEach(movie -> printStream.println(movie.toString()));
+    }
+
+    @Override
+    public String getName() {
+        return "2";
+    }
+
+    @Override
+    public String getDescription() {
+        return "to get all movies";
     }
 }

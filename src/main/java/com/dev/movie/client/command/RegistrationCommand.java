@@ -17,7 +17,7 @@ public class RegistrationCommand implements Command {
     RegistrationService registrationService;
 
     @Override
-    public void execute(Scanner scanner, PrintStream printStream, JwtToken token) {
+    public void execute(Scanner scanner, PrintStream printStream, JwtToken token, LoopHandler handler) {
         UserRegistration user = new UserRegistration();
         printStream.println("Enter email: ");
         String email = scanner.nextLine();
@@ -30,5 +30,15 @@ public class RegistrationCommand implements Command {
         String repeatPassword = scanner.nextLine();
         user.setRepeatPassword(repeatPassword);
         registrationService.registration(user);
+    }
+
+    @Override
+    public String getName() {
+        return "3";
+    }
+
+    @Override
+    public String getDescription() {
+        return "to register new user";
     }
 }
