@@ -8,14 +8,14 @@ import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RegistrationService {
-    private static final RegistrationClient registrationClient;
-    private static final String url = "http://localhost:8080";
+    private final RegistrationClient registrationClient;
 
-    static {
+    public RegistrationService(@Value("${registration.url}") String url) {
         registrationClient = Feign.builder()
                 .encoder(new GsonEncoder())
                 .decoder(new GsonDecoder())
@@ -24,7 +24,6 @@ public class RegistrationService {
                 .logLevel(Logger.Level.BASIC)
                 .target(RegistrationClient.class, url);
     }
-
     public void registration (UserRegistration user) {
         registrationClient.registration(user);
     }

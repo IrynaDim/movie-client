@@ -8,16 +8,17 @@ import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class CinemaHallService {
-    private static final CinemaHallClient cinemaHallClient;
-    private static final String url = "http://localhost:8080/cinema-halls";
-    static {
-        cinemaHallClient = Feign.builder()
+    private final CinemaHallClient cinemaHallClient;
+
+    public CinemaHallService(@Value("${cinema.hall.url}") String url) {
+        this.cinemaHallClient = Feign.builder()
                 .encoder(new GsonEncoder())
                 .decoder(new GsonDecoder())
                 .errorDecoder(new ClientErrorDecoder())
@@ -25,7 +26,8 @@ public class CinemaHallService {
                 .logLevel(Logger.Level.BASIC)
                 .target(CinemaHallClient.class, url);
     }
-      public List<CinemaHall> findAll(String token){
+
+    public List<CinemaHall> findAll(String token) {
         return cinemaHallClient.findAll(token);
-      }
+    }
 }

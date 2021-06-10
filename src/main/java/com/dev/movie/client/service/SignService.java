@@ -8,14 +8,14 @@ import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SignService {
-    private static final SignClient signClient;
-    private static final String url = "http://localhost:8080/signin";
+    private final SignClient signClient;
 
-    static {
+    public SignService(@Value("${sign.in.url}") String url) {
         signClient = Feign.builder()
                 .encoder(new GsonEncoder())
                 .decoder(new GsonDecoder())

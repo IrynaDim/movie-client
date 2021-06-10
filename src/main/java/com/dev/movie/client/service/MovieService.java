@@ -8,15 +8,16 @@ import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class MovieService {
-    private static final MovieClient movieClient;
-    private static final String url = "http://localhost:8080/movies";
-    static {
+    private final MovieClient movieClient;
+
+    public MovieService(@Value("${movie.url}") String url) {
         movieClient = Feign.builder()
                 .encoder(new GsonEncoder())
                 .decoder(new GsonDecoder())
