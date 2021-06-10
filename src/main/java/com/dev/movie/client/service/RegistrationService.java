@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class RegistrationService {
     private static final RegistrationClient registrationClient;
-    private static final String url = "http://localhost:8080"; // не писать путь.через value Mapi глянуть. BeanCofig -> Value
+    private static final String url = "http://localhost:8080";
 
     static {
         registrationClient = Feign.builder()
-                .encoder(new GsonEncoder()) //.requestInterceptor() - добавить. передаем наш настроенный интерсептор
+                .encoder(new GsonEncoder())
                 .decoder(new GsonDecoder())
                 .errorDecoder(new ClientErrorDecoder())
                 .logger(new Slf4jLogger())

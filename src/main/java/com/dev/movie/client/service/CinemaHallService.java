@@ -15,11 +15,10 @@ import java.util.List;
 @Service
 public class CinemaHallService {
     private static final CinemaHallClient cinemaHallClient;
-    private static final String url = "http://localhost:8080/cinema-halls"; // не писать путь.через value Mapi глянуть. BeanCofig -> Value
-
+    private static final String url = "http://localhost:8080/cinema-halls";
     static {
         cinemaHallClient = Feign.builder()
-                .encoder(new GsonEncoder()) //.requestInterceptor() - добавить. передаем наш настроенный интерсептор
+                .encoder(new GsonEncoder())
                 .decoder(new GsonDecoder())
                 .errorDecoder(new ClientErrorDecoder())
                 .logger(new Slf4jLogger())
