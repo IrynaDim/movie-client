@@ -1,4 +1,4 @@
-package com.dev.movie.client.feign;
+package com.dev.movie.client.service.feign;
 
 import com.dev.movie.client.entity.JwtToken;
 import feign.Headers;

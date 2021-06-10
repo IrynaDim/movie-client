@@ -47,12 +47,9 @@ public class ConsoleRunner implements ApplicationRunner {
             } catch (NotCorrectDataException e) {
                 printStream.println("Incorrect login or email. Try again.");
             }
-
             if (loopHandler.isExit()) {
                 break;
             }
         }
     }
 }
-// ловить ошибку
-// обрабатывать ошибку токена, если мы не зарегистр.

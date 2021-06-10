@@ -2,7 +2,7 @@ package com.dev.movie.client.service;
 
 import com.dev.movie.client.entity.JwtToken;
 import com.dev.movie.client.exception.ClientErrorDecoder;
-import com.dev.movie.client.feign.SignClient;
+import com.dev.movie.client.service.feign.SignClient;
 import com.dev.movie.client.logger.Slf4jLogger;
 import feign.Feign;
 import feign.Logger;
