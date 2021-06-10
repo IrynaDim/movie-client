@@ -1,8 +1,8 @@
 package com.dev.movie.client.service;
 
-import com.dev.movie.client.entity.Movie;
+import com.dev.movie.client.entity.CinemaHall;
 import com.dev.movie.client.exception.ClientErrorDecoder;
-import com.dev.movie.client.service.feign.MovieClient;
+import com.dev.movie.client.service.feign.CinemaHallClient;
 import com.dev.movie.client.logger.Slf4jLogger;
 import feign.Feign;
 import feign.Logger;
@@ -13,24 +13,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MovieService {
-    private static final MovieClient movieClient;
-    private static final String url = "http://localhost:8080/movies";
+public class CinemaHallService {
+    private static final CinemaHallClient cinemaHallClient;
+    private static final String url = "http://localhost:8080/cinema-halls";
     static {
-        movieClient = Feign.builder()
+        cinemaHallClient = Feign.builder()
                 .encoder(new GsonEncoder())
                 .decoder(new GsonDecoder())
                 .errorDecoder(new ClientErrorDecoder())
                 .logger(new Slf4jLogger())
                 .logLevel(Logger.Level.BASIC)
-                .target(MovieClient.class, url);
+                .target(CinemaHallClient.class, url);
     }
-
-    public List<Movie> findAll(String token) {
-        return movieClient.findAll(token);
-    }
-
-    public void add(Movie movie, String token) {
-        movieClient.create(token, movie);
-    }
+      public List<CinemaHall> findAll(String token){
+        return cinemaHallClient.findAll(token);
+      }
 }
