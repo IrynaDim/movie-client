@@ -3,29 +3,28 @@ package com.dev.movie.client.aspect;
 import com.dev.movie.client.entity.TokenStorage;
 import com.dev.movie.client.exception.UnauthorizedException;
 
+import com.dev.movie.client.service.TokenRequestInterceptor;
+import lombok.AllArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
 
+@Component
 @Aspect
+@AllArgsConstructor
 public class AuthAspect {
+    private final TokenStorage tokenStorage;
 
-    @Pointcut("execution(* com.dev.movie.client.service.ClientService.findAllHall(..)))")
-    public void movieMethod() {
-    }
-
-    @Pointcut("execution(* com.dev.movie.client.service.ClientService.findAllMovies(..)))")
+    @Pointcut("within(com.dev.movie.client.service.ClientService)")
     public void cinemaHallMethod() {
     }
 
-    @Before("(cinemaHallMethod() || movieMethod()) && !@annotation(com.dev.movie.client.config.AllUser)")
-    public void checkUserToken(JoinPoint joinPoint) {
-        Object[] values = joinPoint.getArgs();
-        for (Object value : values) {
-            if (TokenStorage.class.equals(value.getClass()) && ((TokenStorage) value).getToken() == null) {
-                throw new UnauthorizedException();
-            }
+    @Before("cinemaHallMethod() && !@annotation(com.dev.movie.client.config.AllUser)")
+    public void checkUserToken() {
+        if (tokenStorage.getToken() == null) {
+            throw new UnauthorizedException();
         }
     }
 }
