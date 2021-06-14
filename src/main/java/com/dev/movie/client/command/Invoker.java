@@ -1,6 +1,5 @@
 package com.dev.movie.client.command;
 
-import com.dev.movie.client.entity.JwtToken;
 import org.springframework.stereotype.Service;
 
 import java.io.PrintStream;
@@ -15,12 +14,11 @@ public class Invoker {
         commandMap.put(commandName, command);
     }
 
-    public void execute(String commandName, Scanner scanner, PrintStream printStream, JwtToken token, LoopHandler handler) {
+    public void execute(String commandName, Scanner scanner, PrintStream printStream, LoopHandler handler) {
         Command command = commandMap.get(commandName);
         if (command == null) {
             throw new IllegalStateException("No command registered for " + commandName);
         }
-        command.execute(scanner, printStream, token, handler);
+        command.execute(scanner, printStream, handler);
     }
 }
-// цикл сюда перенести
