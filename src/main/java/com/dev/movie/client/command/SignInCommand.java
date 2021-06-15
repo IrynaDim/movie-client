@@ -1,27 +1,26 @@
 package com.dev.movie.client.command;
 
-import com.dev.movie.client.entity.JwtToken;
-import com.dev.movie.client.service.SignService;
+import com.dev.movie.client.entity.TokenStorage;
+import com.dev.movie.client.service.MovieService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.PrintStream;
 import java.util.Scanner;
 
 @Service
+@AllArgsConstructor
 public class SignInCommand implements Command {
-    private SignService restSignService;
-
-    public SignInCommand(SignService restSignService) {
-        this.restSignService = restSignService;
-    }
+    private final MovieService service;
+    private final TokenStorage token;
 
     @Override
-    public void execute(Scanner scanner, PrintStream printStream, JwtToken jwtToken, LoopHandler handler) {
+    public void execute(Scanner scanner, PrintStream printStream, LoopHandler handler) {
         printStream.println("Enter your email: ");
         String email = scanner.nextLine();
         printStream.println("Enter your password: ");
         String password = scanner.nextLine();
-        jwtToken.token = restSignService.in(email, password).token;
+        token.setToken(service.in(email, password).getToken());
     }
 
     @Override

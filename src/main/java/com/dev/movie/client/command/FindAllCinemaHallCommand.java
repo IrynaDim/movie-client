@@ -1,23 +1,22 @@
 package com.dev.movie.client.command;
 
-import com.dev.movie.client.entity.JwtToken;
-import com.dev.movie.client.service.CinemaHallService;
+import com.dev.movie.client.config.LoggedUser;
+import com.dev.movie.client.service.MovieService;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.io.PrintStream;
 import java.util.Scanner;
 
 @Service
-@Data
 @AllArgsConstructor
 public class FindAllCinemaHallCommand implements Command {
-    private CinemaHallService cinemaHallService;
+    private final MovieService service;
 
     @Override
-    public void execute(Scanner scanner, PrintStream printStream, JwtToken token, LoopHandler handler) {
-        cinemaHallService.findAll(token.token)
+    @LoggedUser
+    public void execute(Scanner scanner, PrintStream printStream, LoopHandler handler) {
+        service.findAllHall()
                 .forEach(movie -> printStream.println(movie.toString()));
     }
 

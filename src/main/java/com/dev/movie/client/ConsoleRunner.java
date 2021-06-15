@@ -1,7 +1,7 @@
 package com.dev.movie.client;
 
 import com.dev.movie.client.command.*;
-import com.dev.movie.client.entity.JwtToken;
+import com.dev.movie.client.exception.HttpErrorException;
 import com.dev.movie.client.exception.NotCorrectDataException;
 import com.dev.movie.client.exception.UnauthorizedException;
 import org.springframework.boot.ApplicationArguments;
@@ -22,7 +22,6 @@ public class ConsoleRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        JwtToken jwtToken = JwtToken.getInstance("");
         PrintStream printStream = System.out;
 
         Invoker invoker = new Invoker();
@@ -41,11 +40,13 @@ public class ConsoleRunner implements ApplicationRunner {
             String command = scanner.nextLine();
 
             try {
-                invoker.execute(command, scanner, printStream, jwtToken, loopHandler);
+                invoker.execute(command, scanner, printStream, loopHandler);
             } catch (UnauthorizedException e) {
                 printStream.println("You should sign-in in the system or register a new user. Press 3 or 4.");
             } catch (NotCorrectDataException e) {
                 printStream.println("Incorrect login or email. Try again.");
+            } catch (HttpErrorException e) {
+                printStream.println("Ooops. Something went wrong. Try again.");
             }
             if (loopHandler.isExit()) {
                 break;

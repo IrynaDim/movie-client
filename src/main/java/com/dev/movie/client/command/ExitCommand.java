@@ -1,6 +1,5 @@
 package com.dev.movie.client.command;
 
-import com.dev.movie.client.entity.JwtToken;
 import org.springframework.stereotype.Service;
 
 import java.io.PrintStream;
@@ -10,7 +9,7 @@ import java.util.Scanner;
 public class ExitCommand implements Command{
 
     @Override
-    public void execute(Scanner scanner, PrintStream printStream, JwtToken token, LoopHandler loopHandler) {
+    public void execute(Scanner scanner, PrintStream printStream, LoopHandler loopHandler) {
         loopHandler.setExit(true);
     }
 

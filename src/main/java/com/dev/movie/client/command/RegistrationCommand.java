@@ -1,23 +1,20 @@
 package com.dev.movie.client.command;
 
-import com.dev.movie.client.entity.JwtToken;
 import com.dev.movie.client.entity.UserRegistration;
-import com.dev.movie.client.service.RegistrationService;
+import com.dev.movie.client.service.MovieService;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.io.PrintStream;
 import java.util.Scanner;
 
 @Service
-@Data
 @AllArgsConstructor
 public class RegistrationCommand implements Command {
-    RegistrationService registrationService;
+    private final MovieService service;
 
     @Override
-    public void execute(Scanner scanner, PrintStream printStream, JwtToken token, LoopHandler handler) {
+    public void execute(Scanner scanner, PrintStream printStream, LoopHandler handler) {
         UserRegistration user = new UserRegistration();
         printStream.println("Enter email: ");
         String email = scanner.nextLine();
@@ -29,7 +26,7 @@ public class RegistrationCommand implements Command {
         printStream.println("Repeat password: ");
         String repeatPassword = scanner.nextLine();
         user.setRepeatPassword(repeatPassword);
-        registrationService.registration(user);
+        service.registration(user);
     }
 
     @Override
