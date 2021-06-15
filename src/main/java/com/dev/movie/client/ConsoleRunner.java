@@ -1,6 +1,7 @@
 package com.dev.movie.client;
 
 import com.dev.movie.client.command.*;
+import com.dev.movie.client.exception.HttpErrorException;
 import com.dev.movie.client.exception.NotCorrectDataException;
 import com.dev.movie.client.exception.UnauthorizedException;
 import org.springframework.boot.ApplicationArguments;
@@ -44,6 +45,8 @@ public class ConsoleRunner implements ApplicationRunner {
                 printStream.println("You should sign-in in the system or register a new user. Press 3 or 4.");
             } catch (NotCorrectDataException e) {
                 printStream.println("Incorrect login or email. Try again.");
+            } catch (HttpErrorException e) {
+                printStream.println("Ooops. Something went wrong. Try again.");
             }
             if (loopHandler.isExit()) {
                 break;

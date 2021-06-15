@@ -3,9 +3,7 @@ package com.dev.movie.client.aspect;
 import com.dev.movie.client.entity.TokenStorage;
 import com.dev.movie.client.exception.UnauthorizedException;
 
-import com.dev.movie.client.service.TokenRequestInterceptor;
 import lombok.AllArgsConstructor;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
