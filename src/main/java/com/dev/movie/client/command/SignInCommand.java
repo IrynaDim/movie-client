@@ -1,7 +1,7 @@
 package com.dev.movie.client.command;
 
 import com.dev.movie.client.entity.TokenStorage;
-import com.dev.movie.client.service.ClientService;
+import com.dev.movie.client.service.MovieService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.Scanner;
 @Service
 @AllArgsConstructor
 public class SignInCommand implements Command {
-    private final ClientService service;
+    private final MovieService service;
     private final TokenStorage token;
 
     @Override

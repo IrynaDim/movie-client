@@ -15,11 +15,13 @@ import org.springframework.stereotype.Component;
 public class AuthAspect {
     private final TokenStorage tokenStorage;
 
-    @Pointcut("within(com.dev.movie.client.service.ClientService)")
-    public void cinemaHallMethod() {
-    }
+    @Pointcut("execution (* com.dev.movie.client.command.Command.execute(..))")
+    public void commandMethods() {}
 
-    @Before("cinemaHallMethod() && !@annotation(com.dev.movie.client.config.AllUser)")
+    @Pointcut("@annotation(com.dev.movie.client.config.LoggedUser)")
+    public void loggedUser() {}
+
+    @Before("commandMethods() && loggedUser()")
     public void checkUserToken() {
         if (tokenStorage.getToken() == null) {
             throw new UnauthorizedException();

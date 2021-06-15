@@ -7,7 +7,7 @@ import feign.RequestLine;
 
 import java.util.List;
 
-public interface FeignClient {
+public interface MovieClient {
     @RequestLine("GET /cinema-halls")
     List<CinemaHall> findAllHalls();
 
