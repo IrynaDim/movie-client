@@ -10,11 +10,11 @@ import java.util.Scanner;
 
 @Service
 @AllArgsConstructor
+@LoggedUser
 public class FindAllMoviesCommand implements Command {
     private final MovieService service;
 
     @Override
-    @LoggedUser
     public void execute(Scanner scanner, PrintStream printStream, LoopHandler handler) {
         service.findAllMovies()
                 .forEach(movie -> printStream.println(movie.toString()));

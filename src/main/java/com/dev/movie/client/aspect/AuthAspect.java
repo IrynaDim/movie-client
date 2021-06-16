@@ -18,7 +18,7 @@ public class AuthAspect {
     @Pointcut("execution (* com.dev.movie.client.command.Command.execute(..))")
     public void commandMethods() {}
 
-    @Pointcut("@annotation(com.dev.movie.client.config.LoggedUser)")
+    @Pointcut("@within(com.dev.movie.client.config.LoggedUser)")
     public void loggedUser() {}
 
     @Before("commandMethods() && loggedUser()")
