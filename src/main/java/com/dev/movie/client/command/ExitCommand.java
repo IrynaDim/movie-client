@@ -9,8 +9,9 @@ import java.util.Scanner;
 public class ExitCommand implements Command{
 
     @Override
-    public void execute(Scanner scanner, PrintStream printStream, LoopHandler loopHandler) {
+    public String execute(Scanner scanner, PrintStream printStream, LoopHandler loopHandler) {
         loopHandler.setExit(true);
+        return null;
     }
 
     @Override

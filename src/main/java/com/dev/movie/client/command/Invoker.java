@@ -14,11 +14,11 @@ public class Invoker {
         commandMap.put(commandName, command);
     }
 
-    public void execute(String commandName, Scanner scanner, PrintStream printStream, LoopHandler handler) {
+    public String execute(String commandName, Scanner scanner, PrintStream printStream, LoopHandler handler) {
         Command command = commandMap.get(commandName);
         if (command == null) {
             throw new IllegalStateException("No command registered for " + commandName);
         }
-        command.execute(scanner, printStream, handler);
+        return command.execute(scanner, printStream, handler);
     }
 }

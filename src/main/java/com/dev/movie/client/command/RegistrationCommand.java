@@ -14,7 +14,7 @@ public class RegistrationCommand implements Command {
     private final MovieService service;
 
     @Override
-    public void execute(Scanner scanner, PrintStream printStream, LoopHandler handler) {
+    public String execute(Scanner scanner, PrintStream printStream, LoopHandler handler) {
         UserRegistration user = new UserRegistration();
         printStream.println("Enter email: ");
         String email = scanner.nextLine();
@@ -27,6 +27,8 @@ public class RegistrationCommand implements Command {
         String repeatPassword = scanner.nextLine();
         user.setRepeatPassword(repeatPassword);
         service.registration(user);
+
+        return null;
     }
 
     @Override

@@ -4,7 +4,7 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 public interface Command {
-    void execute(Scanner scanner, PrintStream printStream, LoopHandler loopHandler);
+    String execute(Scanner scanner, PrintStream printStream, LoopHandler loopHandler);
     String getName();
     String getDescription();
 }
