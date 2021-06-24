@@ -35,28 +35,25 @@ public class ChatBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) { // этот метод вызывается автоматичкски, когда юзер что-то вводит
-        if (!update.hasMessage() && !update.getMessage().hasText()) {
-            return;
-        }
-
-        final String text = update.getMessage().getText();
-        final long chatId = update.getMessage().getChatId();
-
-
         BotContext context;
         BotState state;
 
-        if (user.getChatId() == null) {
+        if (update.hasMessage() && user.getChatId() == null) {
             state = BotState.getInitialState();
-            user.setChatId(chatId);
+            user.setChatId(update.getMessage().getChatId());
 
-            context = BotContext.of(this, user, text, service);
+            context = BotContext.of(this, user, update.getMessage().getText(), service);
             state.enter(context); // войти в состоние
 
         } else {
-            context = BotContext.of(this, user, text, service);
-            state = BotState.byId(user.getStateId());
-
+            if (update.hasMessage()) {
+                context = BotContext.of(this, user, update.getMessage().getText(), service);
+                state = BotState.byId(user.getStateId());
+            }
+            else {
+                context = BotContext.of(this, user, update.getCallbackQuery().getData(), service); // это для клавиатуры
+                state = BotState.byId(user.getStateId());
+            }
         }
 
         state.handleInput(context); // обработать что ввел пользователь

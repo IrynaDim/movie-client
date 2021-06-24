@@ -1,19 +1,31 @@
 package com.dev.movie.client.telegram;
+
 import com.dev.movie.client.exception.NotCorrectDataException;
+import com.dev.movie.client.telegram.utils.Emoji;
+import org.springframework.util.ResourceUtils;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 public enum BotState {
 
     Start {
         @Override
         public void enter(BotContext context) { // что делать когда попали в состояние это? шлем "привет"
-            sendMessage(context, "Hello! Welcome to Movie Bot.");
+            String message = "Hello! " + Emoji.valueOf("WAVE") + " Welcome to Movie Bot." + Emoji.valueOf("CLAPPER");
+            sendPhoto(context, message, "pictures/hello-photo.jpg");
         }
-// ввода тут нет, дальше мы идем в след состояние, ввест пароль
+
+        // ввода тут нет, дальше мы идем в след состояние, ввест пароль
         @Override
         public BotState nextState() {
             return EnterEmail;
@@ -35,7 +47,7 @@ public enum BotState {
                 context.getToken();
                 next = Approved;
             } catch (NotCorrectDataException e) {
-                sendMessage(context, "Not correct email or password. Try again.");
+                sendMessage(context, "Not correct email or password. " + Emoji.valueOf("PENSIVE") + "Try again.");
                 next = EnterEmail;
             }
         }
@@ -63,7 +75,7 @@ public enum BotState {
                 context.getUser().setEmail(context.getInput());
                 next = EnterPassword;
             } catch (AddressException ex) {
-                sendMessage(context, "Not valid email");
+                sendMessage(context, "Not valid email " + Emoji.valueOf("PENSIVE"));
                 next = EnterEmail;
             }
         }
@@ -79,17 +91,34 @@ public enum BotState {
 
         @Override
         public void enter(BotContext context) {
-            sendMessage(context, "You can observe all movies or all cinema halls. " +
-                    "\n Enter: /movies or /cinemaHalls");
+            InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+
+            InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
+            InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
+            inlineKeyboardButton1.setText("movies");
+            inlineKeyboardButton1.setCallbackData("movieButton");
+            inlineKeyboardButton2.setText("cinemaHalls");
+            inlineKeyboardButton2.setCallbackData("cinemaHallButton");
+
+            List<InlineKeyboardButton> keyboardButtonsRow = new ArrayList<>();
+            keyboardButtonsRow.add(inlineKeyboardButton1);
+            keyboardButtonsRow.add(inlineKeyboardButton2);
+
+            List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+            rowList.add(keyboardButtonsRow);
+            inlineKeyboardMarkup.setKeyboard(rowList);
+
+            sendMessageWithKeyBoard(context, "You can observe all movies or all cinema halls. " + Emoji.valueOf("SMILING_FACE"),
+                    inlineKeyboardMarkup);
         }
 
         @Override
         public void handleInput(BotContext context) {
             switch (context.getInput()) {
-                case "/movies":
+                case "movieButton":
                     next = Movies;
                     break;
-                case "/cinemaHalls":
+                case "cinemaHallButton":
                     next = CinemaHalls;
                     break;
                 default:
@@ -152,6 +181,45 @@ public enum BotState {
         return states[id];
     }
 
+    public boolean isInputNeeded() {
+        return inputNeeded;
+    }
+
+    public void handleInput(BotContext context) {
+        //  обрабатывает ввод пользователя в текущем состоянии
+    }
+
+    protected void sendPhoto(BotContext context, String imageCaption, String imagePath) {
+        File image = null;
+        try {
+            image = ResourceUtils.getFile("classpath:" + imagePath);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        SendPhoto sendPhoto = new SendPhoto().setPhoto(image);
+        sendPhoto.setChatId(context.getUser().getChatId());
+        sendPhoto.setCaption(imageCaption);
+        try {
+            context.getBot().execute(sendPhoto);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    protected void sendMessageWithKeyBoard(BotContext context, String text, InlineKeyboardMarkup inlineKeyboardMarkup) { // шлет сообщение пользователю
+        SendMessage message = new SendMessage()
+                .setChatId(context.getUser().getChatId())
+                .setText(text)
+                .setReplyMarkup(inlineKeyboardMarkup);
+
+        try {
+            context.getBot().execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
     protected void sendMessage(BotContext context, String text) { // шлет сообщение пользователю
         SendMessage message = new SendMessage()
                 .setChatId(context.getUser().getChatId())
@@ -163,14 +231,7 @@ public enum BotState {
         }
     }
 
-    public boolean isInputNeeded() {
-        return inputNeeded;
-    }
-
-    public void handleInput(BotContext context) {
-        //  обрабатывает ввод пользователя в текущем состоянии
-    }
-
     public abstract void enter(BotContext context); // войти в  новое состояние. пишем что-то юзеру
+
     public abstract BotState nextState(); // в какое след состояние перейти
 }

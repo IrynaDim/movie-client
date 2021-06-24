@@ -1,5 +1,7 @@
 package com.dev.movie.client.telegram;
 
+import com.dev.movie.client.telegram.utils.Emoji;
+
 public class BotContext { // он собирает в себе три сущности, комплексный объект
     private final ChatBot bot; // реализует бота
     private final UserBotStorage user;
@@ -34,10 +36,10 @@ public class BotContext { // он собирает в себе три сущно
     }
 
     public String getMovies () {
-        return service.run("1");
+        return service.run("2");
     }
 
     public String getHalls () {
-        return service.run("2");
+        return service.run("1");
     }
 }
